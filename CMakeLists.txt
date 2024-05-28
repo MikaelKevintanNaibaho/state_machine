@@ -39,7 +39,7 @@ ament_target_dependencies(state_machine_sub rclcpp std_msgs)
 
 install(TARGETS
   state_machine_sub
-  DESTINATION lin/state_machine
+  DESTINATION lib/state_machine
 )
 
 ament_package()
