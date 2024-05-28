@@ -22,6 +22,7 @@ void PCA9685_init()
     // init
     write_byte(MODE1, 0x00);
     write_byte(MODE2, 0x04);
+    set_pwm_freq(50);
 }
 
 /**
@@ -123,7 +124,7 @@ int get_pwm(uint8_t channel)
  * @param angle Angle value (0 - 180)
  * @param freq PWM frequency
  */
-void set_pwm_angle(uint8_t channel, int angle, int freq)
+void set_pwm_angle(uint8_t channel, int angle)
 {
     if (angle < 0) {
         angle = 0;
@@ -135,6 +136,6 @@ void set_pwm_angle(uint8_t channel, int angle, int freq)
 
     set_pwm_duty(channel, pulse_width);
 
-    set_pwm_freq(freq);
+
 }
 

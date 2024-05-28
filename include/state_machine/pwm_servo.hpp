@@ -41,7 +41,7 @@ void write_byte(uint8_t reg, uint8_t val);
 void set_pwm_freq(int freq);
 void set_pwm_duty(uint8_t channel, int value);
 void set_pwm(uint8_t channel, int on_value, int off_value);
-void set_pwm_angle(uint8_t channel, int angle, int freq);
+void set_pwm_angle(uint8_t channel, int angle);
 
 int get_pwm(uint8_t channel);
 

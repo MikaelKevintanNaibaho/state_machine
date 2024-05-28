@@ -353,6 +353,6 @@ void self_balance(float roll, float pitch)
         }
 
         // Add delay before next iteration to control loop frequency
-        usleep(100000); // Adjust as needed based on desired loop frequency
+        usleep(100); // Adjust as needed based on desired loop frequency
     }
 }

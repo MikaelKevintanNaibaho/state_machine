@@ -3,12 +3,12 @@
 
 void set_angle_mg(int angle)
 {
-    set_pwm_angle(CAPIT_BASE, angle, FREQ);
+    set_pwm_angle(CAPIT_BASE, angle);
 }
 
 void set_angle_sg(int angle)
 {
-    set_pwm_angle(CAPIT_UJUNG, angle, FREQ);
+    set_pwm_angle(CAPIT_UJUNG, angle);
 }
 
 void buka_capit(void)
