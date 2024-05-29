@@ -231,7 +231,7 @@ void update_leg_left(struct bezier3d curve[NUM_LEGS], int num_points, SpiderLeg 
     float dt = desired_duration / num_points;
     
     // Define the desired gait pattern for each leg (phase offsets)
-    float phase_offsets[NUM_LEGS] = { 0.0, 0.35, 0.7, 0.05}; // Example: Trot gait
+    float phase_offsets[NUM_LEGS] = { 0.0, 0.4, 0.2, 0.6}; // Example: Trot gait
     
     for (int i = 0; i <= num_points; i++) {
         float t = (float)i / num_points;
