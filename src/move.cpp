@@ -223,27 +223,26 @@ void update_leg_trot_gait(struct bezier2d curve[NUM_LEGS], int num_points,
     }
 }
 void update_leg_left(struct bezier3d curve[NUM_LEGS], int num_points, SpiderLeg *legs[NUM_LEGS],
-                     LegPosition leg_positions[NUM_LEGS])
-{
+                     LegPosition leg_positions[NUM_LEGS]) {
     float desired_duration = DESIRED_TIME;
     float dt = desired_duration / num_points;
-    
-    // Define the desired gait pattern for each leg (phase offsets)
-    float phase_offsets[NUM_LEGS] = { 0.0, 0.35, 0.7, 0.05}; // Example: Trot gait
-    
+
+    // Define the adjusted gait pattern for each leg pair (phase offsets)
+    float phase_offsets[NUM_LEGS] = { 0.0, 0.5, 0.25, 0.75 }; // Adjusted phase offsets for alternating swing and stable phases
+
     for (int i = 0; i <= num_points; i++) {
         float t = (float)i / num_points;
 
-        // Update positions for each leg based on the gait pattern
+        // Update positions for each leg based on the adjusted gait pattern
         float x[NUM_LEGS], y[NUM_LEGS], z[NUM_LEGS];
         for (int j = 0; j < NUM_LEGS; j++) {
-            float phase_offset = fmod(t + phase_offsets[j], 1.0);
+            float phase_offset = fmod(t + phase_offsets[j % 2], 1.0); // Alternate between 0.0 and 0.5 for swing and stable phases
             bezier3d_getpos(&curve[j], phase_offset, &x[j], &y[j], &z[j]);
         }
 
         // Update leg positions using inverse kinematics
         for (int j = 0; j < NUM_LEGS; j++) {
-             float pos[3] = { x[j], legs[j]->joints[3][1], z[j] };
+            float pos[3] = { x[j], legs[j]->joints[3][1], z[j] };
             inverse_kinematics(legs[j], pos, leg_positions[j]);
         }
 
@@ -303,14 +302,14 @@ void move_left_turn(void)
     struct bezier3d curve[NUM_LEGS];
     float radius = 150.0;
     float angle_offsets[4] = {
-        M_PI / 4,          // Front Left Leg (45 degrees)
-        3 * M_PI / 4,      // Front Right Leg (135 degrees)
-        5 * M_PI / 4,      // Back Right Leg (225 degrees)
-        7 * M_PI / 4       // Back Left Leg (315 degrees)
+        0.0,               // Front Left Leg
+        M_PI / 2,          // Front Right Leg (90 degrees)
+        M_PI,              // Back Right Leg (180 degrees)
+        3 * M_PI / 2       // Back Left Leg (270 degrees)
     };
     for(int i = 0; i < NUM_LEGS; i++) {
         bezier3d_init(&curve[i]);
-        generate_circular_trajectory(&curve[i], legs[i], radius, SWING_HEIGHT, angle_offsets[i]);
+        generate_circular_trajectory(&curve[i], legs[i], radius, SWING_HEIGHT, leg_positions[i]);
         print_trajectory_3d(&curve[i], NUM_POINTS);
     }
     
@@ -324,15 +323,15 @@ void move_right_turn(void)
 {
     struct bezier3d curve[NUM_LEGS];
     float radius = 150.0;
-     float angle_offsets[4] = {
-        0.0,               // Front Left Leg
-        M_PI / 2,          // Front Right Leg (90 degrees)
-        M_PI,              // Back Right Leg (180 degrees)
-        3 * M_PI / 2       // Back Left Leg (270 degrees)
+    float angle_offsets[4] = {
+        M_PI / 2,          // Front Left Leg (90 degrees)
+        M_PI,              // Front Right Leg (180 degrees)
+        3 * M_PI / 2,      // Back Right Leg (270 degrees)
+        2 * M_PI           // Back Left Leg (360 degrees, equivalent to 0 degrees)
     };
     for(int i = 0; i < NUM_LEGS; i++) {
         bezier3d_init(&curve[i]);
-        generate_circular_trajectory(&curve[i], legs[i], radius, SWING_HEIGHT, angle_offsets[i]);
+        generate_circular_trajectory(&curve[i], legs[i], radius, SWING_HEIGHT, leg_positions[i]);
     }
     
     while(is_program_running) {
