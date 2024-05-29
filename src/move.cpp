@@ -302,10 +302,10 @@ void move_left_turn(void)
     struct bezier3d curve[NUM_LEGS];
     float radius = 150.0;
     float angle_offsets[4] = {
-        0.0,               // Front Left Leg
-        M_PI / 2,          // Front Right Leg (90 degrees)
-        M_PI,              // Back Right Leg (180 degrees)
-        3 * M_PI / 2       // Back Left Leg (270 degrees)
+        M_PI / 4,          // Front Left Leg (45 degrees)
+        3 * M_PI / 4,      // Front Right Leg (135 degrees)
+        5 * M_PI / 4,      // Back Right Leg (225 degrees)
+        7 * M_PI / 4       // Back Left Leg (315 degrees)
     };
     for(int i = 0; i < NUM_LEGS; i++) {
         bezier3d_init(&curve[i]);
@@ -324,10 +324,10 @@ void move_right_turn(void)
     struct bezier3d curve[NUM_LEGS];
     float radius = 150.0;
     float angle_offsets[4] = {
-        M_PI / 2,          // Front Left Leg (90 degrees)
-        M_PI,              // Front Right Leg (180 degrees)
-        3 * M_PI / 2,      // Back Right Leg (270 degrees)
-        2 * M_PI           // Back Left Leg (360 degrees, equivalent to 0 degrees)
+        3 * M_PI / 4,      // Front Left Leg (135 degrees)
+        5 * M_PI / 4,      // Front Right Leg (225 degrees)
+        7 * M_PI / 4,      // Back Right Leg (315 degrees)
+        M_PI / 4           // Back Left Leg (45 degrees)
     };
     for(int i = 0; i < NUM_LEGS; i++) {
         bezier3d_init(&curve[i]);
