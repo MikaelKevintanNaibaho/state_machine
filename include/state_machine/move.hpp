@@ -58,7 +58,7 @@ void generate_walk_back_leg(struct bezier2d *curve, SpiderLeg *leg, float stride
 void generate_stright_back_trajectory(struct bezier2d *stright_back, SpiderLeg *leg,
                                       float stride_length);
 
-void generate_circular_trajectory(struct bezier2d *curve, SpiderLeg *leg, float radius, 
+void generate_circular_trajectory(struct bezier3d *curve, SpiderLeg *leg, float radius, 
                                   float swing_height, float angle_offset) ;
 
 // printing and saving//
@@ -75,7 +75,7 @@ void update_leg_wave_gait(struct bezier2d curve[NUM_LEGS], int num_points,
 void update_leg_trot_gait(struct bezier2d curve[NUM_LEGS], int num_points,
                           SpiderLeg *legs[NUM_LEGS], LegPosition leg_positions[NUM_LEGS]);
 
-void update_leg_left(struct bezier2d curve[NUM_LEGS], int num_points, SpiderLeg *legs[NUM_LEGS],
+void update_leg_left(struct bezier3d curve[NUM_LEGS], int num_points, SpiderLeg *legs[NUM_LEGS],
                      LegPosition leg_positons[NUM_LEGS]);
 const char *leg_position_to_string(LegPosition position);
 
