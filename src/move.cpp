@@ -4,40 +4,11 @@ void generate_walk_trajectory(struct bezier2d *curve, SpiderLeg *leg, float stri
                               float swing_height, LegPosition position_leg)
 {
     // get current position
-    float startx = leg->joints[3][0] - stride_length;
+    float startx = leg->joints[3][0] + stride_length;
     float startz = leg->joints[3][2];
     printf("startx = %f, startz %f\n", startx, startz);
 
     // control points
-    float controlx = startx + stride_length / 2;
-
-    printf("controlx = %f \t", controlx);
-    float controlz = startz + 2 * swing_height;
-    printf("controlz = %f\n", controlz);
-    float endx_forward = startx + stride_length;
-    float endz_forward = startz;
-    // buar bezier curve
-    bezier2d_generate_curve(curve, startx, startz, controlx, controlz, endx_forward, endz_forward);
-
-    float startx_2 = endx_forward;
-    float startz_2 = endz_forward;
-
-    float controlx_2 = startx_2 - stride_length / 2;
-    float controlz_2 = startz_2 - swing_height / 2;
-
-    float endx_2 = startx_2 - stride_length;
-    float endz_2 = startz_2;
-
-    bezier2d_generate_curve(curve, startx_2, startz_2, controlx_2, controlz_2, endx_2, endz_2);
-}
-
-void generate_walk_back_leg(struct bezier2d *curve, SpiderLeg *leg, float stride_length,
-                            float swing_height, LegPosition leg_position)
-{
-    float startx = leg->joints[3][0];
-    float startz = leg->joints[3][2];
-    printf("startx = %f, startz %f\n", startx, startz);
-
     float controlx = startx - stride_length / 2;
 
     printf("controlx = %f \t", controlx);
@@ -55,6 +26,35 @@ void generate_walk_back_leg(struct bezier2d *curve, SpiderLeg *leg, float stride
     float controlz_2 = startz_2 - swing_height / 2;
 
     float endx_2 = startx_2 + stride_length;
+    float endz_2 = startz_2;
+
+    bezier2d_generate_curve(curve, startx_2, startz_2, controlx_2, controlz_2, endx_2, endz_2);
+}
+
+void generate_walk_back_leg(struct bezier2d *curve, SpiderLeg *leg, float stride_length,
+                            float swing_height, LegPosition leg_position)
+{
+    float startx = leg->joints[3][0];
+    float startz = leg->joints[3][2];
+    printf("startx = %f, startz %f\n", startx, startz);
+
+    float controlx = startx + stride_length / 2;
+
+    printf("controlx = %f \t", controlx);
+    float controlz = startz + 2 * swing_height;
+    printf("controlz = %f\n", controlz);
+    float endx_forward = startx + stride_length;
+    float endz_forward = startz;
+    // buar bezier curve
+    bezier2d_generate_curve(curve, startx, startz, controlx, controlz, endx_forward, endz_forward);
+
+    float startx_2 = endx_forward;
+    float startz_2 = endz_forward;
+
+    float controlx_2 = startx_2 - stride_length / 2;
+    float controlz_2 = startz_2 - swing_height / 2;
+
+    float endx_2 = startx_2 - stride_length;
     float endz_2 = startz_2;
 
     bezier2d_generate_curve(curve, startx_2, startz_2, controlx_2, controlz_2, endx_2, endz_2);
