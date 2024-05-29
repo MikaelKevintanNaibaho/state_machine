@@ -83,28 +83,28 @@ void generate_stright_back_trajectory(struct bezier2d *stright_back, SpiderLeg *
 
     bezier2d_generate_straight_back(stright_back, startx, startz, endx, endz);
 }
-
-void generate_turn_left_trajectory(struct bezier3d *curve, SpiderLeg *leg, float stride_length,
-                                   float swing_height, LegPosition position_leg)
-{
-    // ambil posisi terkini pada 3d coordinate
+void generate_circular_trajectory(struct bezier3d *curve, SpiderLeg *leg, float radius, 
+                                  float swing_height, float angle_offset) {
+    // Calculate the current position of the leg
     float startx = leg->joints[3][0];
     float starty = leg->joints[3][1];
     float startz = leg->joints[3][2];
 
-    // define control point untuk belok kiri
-    float controlx = startx +  2 * startx;
-    float controly = starty - stride_length / 2;
-    float controlz = startz + 2 * swing_height;
+    // Calculate the angle for the circular motion
+    float angle = atan2(starty, startx) + angle_offset;
 
-    float endx = startx;
-    float endy = starty + stride_length;
+    // Define the control point and end point for the circular trajectory
+    float controlx = radius * cos(angle);
+    float controly = radius * sin(angle) - radius / 2;
+    float controlz = startz + swing_height;
+
+    float endx = radius * cos(angle + M_PI / 2); // 90 degree increment for the next point on the circle
+    float endy = radius * sin(angle + M_PI / 2);
     float endz = startz;
 
-    bezier3d_generate_curve(curve, startx, starty, startz, controlx, controly, controlz, endx, endy,
-                            endz);
+    // Generate the Bezier curve with the specified points
+    bezier3d_generate_curve(curve, startx, starty, startz, controlx, controly, controlz, endx, endy, endz);
 }
-
 void print_trajectory(struct bezier2d *curve, int num_points)
 {
     printf("Trajectory Points:\n");
@@ -304,9 +304,16 @@ void move_forward(void)
 void move_left_turn(void)
 {
     struct bezier3d curve[NUM_LEGS];
+    float radius = 150.0;
+    float angle_offsets[4] = {
+        0.0,               // Front Left Leg
+        M_PI / 2,          // Front Right Leg (90 degrees)
+        M_PI,              // Back Right Leg (180 degrees)
+        3 * M_PI / 2       // Back Left Leg (270 degrees)
+    };
     for(int i = 0; i < NUM_LEGS; i++) {
         bezier3d_init(&curve[i]);
-        generate_turn_left_trajectory(&curve[i], legs[i], STRIDE_LENGTH, SWING_HEIGHT, leg_positions[i]);
+        generate_circular_trajectory(&curve[i], legs[i], radius, SWING_HEIGHT, leg_positions[i]);
         print_trajectory_3d(&curve[i], NUM_POINTS);
     }
     
