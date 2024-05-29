@@ -83,27 +83,25 @@ void generate_stright_back_trajectory(struct bezier2d *stright_back, SpiderLeg *
 
     bezier2d_generate_straight_back(stright_back, startx, startz, endx, endz);
 }
-void generate_circular_trajectory(struct bezier3d *curve, SpiderLeg *leg, float radius, 
+void generate_circular_trajectory(struct bezier2d *curve, SpiderLeg *leg, float radius, 
                                   float swing_height, float angle_offset) {
     // Calculate the current position of the leg
+     // Calculate the current position of the leg
     float startx = leg->joints[3][0];
     float starty = leg->joints[3][1];
-    float startz = leg->joints[3][2];
 
     // Calculate the angle for the circular motion
     float angle = atan2(starty, startx) + angle_offset;
 
     // Define the control point and end point for the circular trajectory
     float controlx = radius * cos(angle);
-    float controly = radius * sin(angle) - radius / 2;
-    float controlz = startz + swing_height + 50.0;
+    float controly = radius * sin(angle);
 
     float endx = radius * cos(angle + M_PI / 2); // 90 degree increment for the next point on the circle
     float endy = radius * sin(angle + M_PI / 2);
-    float endz = startz;
 
-    // Generate the Bezier curve with the specified points
-    bezier3d_generate_curve(curve, startx, starty, startz, controlx, controly, controlz, endx, endy, endz);
+    // Generate the Bezier curve with the specified points (ignore z-axis)
+    bezier2d_generate_curve(curve, startx, starty, controlx, controly, endx, endy);
 }
 void print_trajectory(struct bezier2d *curve, int num_points)
 {
