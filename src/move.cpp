@@ -228,7 +228,7 @@ void update_leg_left(struct bezier3d curve[NUM_LEGS], int num_points, SpiderLeg 
     float dt = desired_duration / num_points;
 
     // Define the adjusted gait pattern for each leg pair (phase offsets)
-    float phase_offsets[NUM_LEGS] = { 0.0, 0.5 }; // Adjusted phase offsets for alternating swing and stable phases
+    float phase_offsets[NUM_LEGS] = { 0.0, 0.5, 0.25, 0.75 }; // Adjusted phase offsets for alternating swing and stable phases
 
     for (int i = 0; i <= num_points; i++) {
         float t = (float)i / num_points;
