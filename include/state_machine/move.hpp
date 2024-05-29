@@ -75,7 +75,7 @@ void update_leg_wave_gait(struct bezier2d curve[NUM_LEGS], int num_points,
 void update_leg_trot_gait(struct bezier2d curve[NUM_LEGS], int num_points,
                           SpiderLeg *legs[NUM_LEGS], LegPosition leg_positions[NUM_LEGS]);
 
-void update_leg_left(struct bezier3d curve[NUM_LEGS], int num_points, SpiderLeg *legs[NUM_LEGS],
+void update_leg_left(struct bezier2d curve[NUM_LEGS], int num_points, SpiderLeg *legs[NUM_LEGS],
                      LegPosition leg_positons[NUM_LEGS]);
 const char *leg_position_to_string(LegPosition position);
 

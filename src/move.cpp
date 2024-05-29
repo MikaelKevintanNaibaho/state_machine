@@ -220,7 +220,7 @@ void update_leg_trot_gait(struct bezier2d curve[NUM_LEGS], int num_points,
         usleep((long)(dt * 1e6));
     }
 }
-void update_leg_left(struct bezier3d curve[NUM_LEGS], int num_points, SpiderLeg *legs[NUM_LEGS],
+void update_leg_left(struct bezier2d curve[NUM_LEGS], int num_points, SpiderLeg *legs[NUM_LEGS],
                      LegPosition leg_positions[NUM_LEGS]) {
     float desired_duration = DESIRED_TIME;
     float dt = desired_duration / num_points;
@@ -308,7 +308,6 @@ void move_left_turn(void)
     for(int i = 0; i < NUM_LEGS; i++) {
         bezier3d_init(&curve[i]);
         generate_circular_trajectory(&curve[i], legs[i], radius, SWING_HEIGHT, leg_positions[i]);
-        print_trajectory_3d(&curve[i], NUM_POINTS);
     }
     
     while(is_program_running) {
