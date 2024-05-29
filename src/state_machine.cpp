@@ -64,43 +64,33 @@ private:
 
     void state_machine_loop()
     {
-        // Continuously check the current state
-        while (rclcpp::ok()) {
-            switch (current_state_)
-            {
-                case RobotState::Idle:
-                    RCLCPP_INFO(this->get_logger(), "State: idle");
-                    stand_position();
-                    break;
-                
-                case RobotState::Walk:
-                    RCLCPP_INFO(this->get_logger(), "State: Walk");
-                    move_forward();
-                    break;
+        switch (current_state_)
+        {
+            case RobotState::Idle:
+                RCLCPP_INFO(this->get_logger(), "State: idle");
+                stand_position();
+                break;
+            
+            case RobotState::Walk:
+                RCLCPP_INFO(this->get_logger(), "State: Walk");
+                move_forward();
+                break;
 
-                case RobotState::TurnLeft:
-                    RCLCPP_INFO(this->get_logger(), "State: TurnLeft");
-                    move_left_turn();
-                    break;
+            case RobotState::TurnLeft:
+                RCLCPP_INFO(this->get_logger(), "State: TurnLeft");
+                move_left_turn();
+                break;
 
-                case RobotState::TurnRight:
-                    RCLCPP_INFO(this->get_logger(), "State: TurnRight");
-                    move_right_turn();
-                    // Add implementation for turning right
-                    break;
+            case RobotState::TurnRight:
+                RCLCPP_INFO(this->get_logger(), "State: TurnRight");
+                move_right_turn();
+                break;
 
-                default:
-                    RCLCPP_WARN(this->get_logger(), "Unknown state!");
-                    break;
-            }
-
-            // Sleep for a short duration to prevent busy-waiting
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            rclcpp::spin_some(this->get_node_base_interface());
+            default:
+                RCLCPP_WARN(this->get_logger(), "Unknown state!");
+                break;
         }
     }
-
-
 
 };
 
