@@ -222,38 +222,33 @@ void update_leg_trot_gait(struct bezier2d curve[NUM_LEGS], int num_points,
         usleep((long)(dt * 1e6));
     }
 }
-
-
-void update_leg_left(struct bezier3d curve[NUM_LEGS], int num_points, SpiderLeg *legs[NUM_LEGS],
-                     LegPosition leg_positions[NUM_LEGS])
-{
+void update_leg_left(Bezier3D curve[NUM_LEGS], int num_points, SpiderLeg *legs[NUM_LEGS],
+                     LegPosition leg_positions[NUM_LEGS]) {
     float desired_duration = DESIRED_TIME;
     float dt = desired_duration / num_points;
-    
-    // Define the desired gait pattern for each leg (phase offsets)
-    float phase_offsets[NUM_LEGS] = {0.0, 0.3, 0.6, 0.9}; // Example: Trot gait
-    
+
+    // Define the adjusted gait pattern for each leg pair (phase offsets)
+    float phase_offsets[NUM_LEGS] = { 0.0, 0.5 }; // Adjusted phase offsets for alternating swing and stable phases
+
     for (int i = 0; i <= num_points; i++) {
         float t = (float)i / num_points;
 
-        // Update positions for each leg based on the gait pattern
+        // Update positions for each leg based on the adjusted gait pattern
         float x[NUM_LEGS], y[NUM_LEGS], z[NUM_LEGS];
         for (int j = 0; j < NUM_LEGS; j++) {
-            float phase_offset = fmod(t + phase_offsets[j], 1.0);
+            float phase_offset = fmod(t + phase_offsets[j % 2], 1.0); // Alternate between 0.0 and 0.5 for swing and stable phases
             bezier3d_getpos(&curve[j], phase_offset, &x[j], &y[j], &z[j]);
         }
 
         // Update leg positions using inverse kinematics
         for (int j = 0; j < NUM_LEGS; j++) {
-             float pos[3] = { x[j], legs[j]->joints[3][1], z[j] };
+            float pos[3] = { x[j], legs[j]->joints[3][1], z[j] };
             inverse_kinematics(legs[j], pos, leg_positions[j]);
         }
 
-        // usleep((long)(dt * 1e6));
-        usleep((long)(dt * 0.5 * 1e6));
+        usleep((long)(dt * 1e6));
     }
 }
-
 
 const char *leg_position_to_string(LegPosition position)
 {
