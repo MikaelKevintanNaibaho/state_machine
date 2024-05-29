@@ -309,8 +309,29 @@ void move_left_turn(void)
     };
     for(int i = 0; i < NUM_LEGS; i++) {
         bezier3d_init(&curve[i]);
-        generate_circular_trajectory(&curve[i], legs[i], radius, SWING_HEIGHT, leg_positions[i]);
+        generate_circular_trajectory(&curve[i], legs[i], radius, SWING_HEIGHT, angle_offsets[i]);
         print_trajectory_3d(&curve[i], NUM_POINTS);
+    }
+    
+    while(is_program_running) {
+        update_leg_left(curve, NUM_POINTS, legs, leg_positions);
+        usleep(100000);
+    }
+}
+
+void move_right_turn(void)
+{
+    struct bezier3d curve[NUM_LEGS];
+    float radius = 150.0;
+    float angle_offsets[4] = {
+        M_PI / 2,          // Front Left Leg (90 degrees)
+        M_PI,              // Front Right Leg (180 degrees)
+        3 * M_PI / 2,      // Back Right Leg (270 degrees)
+        2 * M_PI           // Back Left Leg (360 degrees, equivalent to 0 degrees)
+    };
+    for(int i = 0; i < NUM_LEGS; i++) {
+        bezier3d_init(&curve[i]);
+        generate_circular_trajectory(&curve[i], legs[i], radius, SWING_HEIGHT, angle_offsets[i]);
     }
     
     while(is_program_running) {
