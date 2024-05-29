@@ -96,7 +96,7 @@ void generate_circular_trajectory(struct bezier3d *curve, SpiderLeg *leg, float 
     // Define the control point and end point for the circular trajectory
     float controlx = radius * cos(angle);
     float controly = radius * sin(angle) - radius / 2;
-    float controlz = startz + swing_height;
+    float controlz = startz + swing_height + 10;
 
     float endx = radius * cos(angle + M_PI / 2); // 90 degree increment for the next point on the circle
     float endy = radius * sin(angle + M_PI / 2);
