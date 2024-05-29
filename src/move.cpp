@@ -96,7 +96,7 @@ void generate_circular_trajectory(struct bezier3d *curve, SpiderLeg *leg, float 
     // Define the control point and end point for the circular trajectory
     float controlx = radius * cos(angle);
     float controly = radius * sin(angle) - radius / 2;
-    float controlz = startz + swing_height + 10;
+    float controlz = startz + swing_height;
 
     float endx = radius * cos(angle + M_PI / 2); // 90 degree increment for the next point on the circle
     float endy = radius * sin(angle + M_PI / 2);
@@ -231,7 +231,7 @@ void update_leg_left(struct bezier3d curve[NUM_LEGS], int num_points, SpiderLeg 
     float dt = desired_duration / num_points;
     
     // Define the desired gait pattern for each leg (phase offsets)
-    float phase_offsets[NUM_LEGS] = { 0.0, 0.4, 0.2, 0.6}; // Example: Trot gait
+    float phase_offsets[NUM_LEGS] = { 0.0, 0.25, 0.5, 0.75 }; // Example: Trot gait
     
     for (int i = 0; i <= num_points; i++) {
         float t = (float)i / num_points;
@@ -249,7 +249,8 @@ void update_leg_left(struct bezier3d curve[NUM_LEGS], int num_points, SpiderLeg 
             inverse_kinematics(legs[j], pos, leg_positions[j]);
         }
 
-        usleep((long)(dt * 1e6));
+        // usleep((long)(dt * 1e6));
+        usleep((long)(dt * 0.5 * 1e6));
     }
 }
 
