@@ -298,7 +298,7 @@ void move_forward(void)
 void move_left_turn(void)
 {
     struct bezier2d curve[NUM_LEGS];
-    float radius = 150.0;
+    float radius = 20.0;
     float angle_offsets[4] = {
         0.0,               // Front Left Leg
         M_PI / 2,          // Front Right Leg (90 degrees)
