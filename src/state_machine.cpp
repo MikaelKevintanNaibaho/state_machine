@@ -15,7 +15,7 @@ enum class RobotState
 class StateMachineNode : public rclcpp::Node
 {
 public:
-    StateMachineNode() : Node("state_machine_node"), current_state_(RobotState::Idle)
+    StateMachineNode() : Node("state_machine_node_1"), current_state_(RobotState::Idle)
     {
         command_sub_ = this->create_subscription<std_msgs::msg::String>(
             "robot_commands", 10, std::bind(&StateMachineNode::command_callback, this, std::placeholders::_1)
