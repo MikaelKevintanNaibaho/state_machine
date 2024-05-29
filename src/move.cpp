@@ -235,7 +235,7 @@ void update_leg_left(struct bezier2d curve[NUM_LEGS], int num_points, SpiderLeg 
         float x[NUM_LEGS], y[NUM_LEGS], z[NUM_LEGS];
         for (int j = 0; j < NUM_LEGS; j++) {
             float phase_offset = fmod(t + phase_offsets[j % 2], 1.0); // Alternate between 0.0 and 0.5 for swing and stable phases
-            bezier3d_getpos(&curve[j], phase_offset, &x[j], &y[j], &z[j]);
+            bezier2d_getPos(&curve[j], phase_offset, &x[j], &y[j]);
         }
 
         // Update leg positions using inverse kinematics
@@ -306,7 +306,7 @@ void move_left_turn(void)
         3 * M_PI / 2       // Back Left Leg (270 degrees)
     };
     for(int i = 0; i < NUM_LEGS; i++) {
-        bezier3d_init(&curve[i]);
+        bezier2d_init(&curve[i]);
         generate_circular_trajectory(&curve[i], legs[i], radius, SWING_HEIGHT, leg_positions[i]);
     }
     
