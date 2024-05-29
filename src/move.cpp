@@ -96,7 +96,7 @@ void generate_circular_trajectory(struct bezier3d *curve, SpiderLeg *leg, float 
     // Define the control point and end point for the circular trajectory
     float controlx = radius * cos(angle);
     float controly = radius * sin(angle) - radius / 2;
-    float controlz = startz + swing_height;
+    float controlz = startz + swing_height + 50.0;
 
     float endx = radius * cos(angle + M_PI / 2); // 90 degree increment for the next point on the circle
     float endy = radius * sin(angle + M_PI / 2);
@@ -222,7 +222,7 @@ void update_leg_trot_gait(struct bezier2d curve[NUM_LEGS], int num_points,
         usleep((long)(dt * 1e6));
     }
 }
-void update_leg_left(Bezier3D curve[NUM_LEGS], int num_points, SpiderLeg *legs[NUM_LEGS],
+void update_leg_left(struct bezier3d curve[NUM_LEGS], int num_points, SpiderLeg *legs[NUM_LEGS],
                      LegPosition leg_positions[NUM_LEGS]) {
     float desired_duration = DESIRED_TIME;
     float dt = desired_duration / num_points;
