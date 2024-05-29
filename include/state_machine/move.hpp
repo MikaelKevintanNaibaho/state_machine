@@ -87,4 +87,5 @@ void *move_leg(void *thread_data);
 void stand_position(void);
 void move_forward(void);
 void move_left_turn(void);
+void move_right_turn(void);
 #endif // MOVE_HPP

@@ -85,6 +85,7 @@ private:
 
                 case RobotState::TurnRight:
                     RCLCPP_INFO(this->get_logger(), "State: TurnRight");
+                    move_right_turn();
                     // Add implementation for turning right
                     break;
 
