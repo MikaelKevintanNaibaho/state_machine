@@ -297,7 +297,7 @@ void move_forward(void)
 
 void move_left_turn(void)
 {
-    struct bezier3d curve[NUM_LEGS];
+    struct bezier2d curve[NUM_LEGS];
     float radius = 150.0;
     float angle_offsets[4] = {
         0.0,               // Front Left Leg
